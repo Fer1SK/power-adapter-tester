@@ -1,0 +1,244 @@
+/* What you see on the main page is stylized here */
+/* Controls window styling */
+.controls {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    padding: 10px;
+    flex-wrap: nowrap;
+    box-sizing: border-box;
+    height: 125px;
+}
+.controls-sub-divider {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px;
+    border-left: 2px solid #0B5EF4;
+}
+/* Sub sub sub div for the other buttons */
+.controls-sub-sub-divider-stacker {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Sub sub sub div for the start and stop btn */
+.start-stop-btn-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Top and Bottom Subsections */
+.controls-sub-sub-divider-top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.controls-sub-sub-divider-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Resizing some buttons */
+.controls-sub-divider button{
+    width: 55px;
+    height: 38px;
+}
+.controls-sub-divider .shutdown-btn{
+    height: 75px;
+    width: 75px;
+}
+
+/* Positioning and sizing individual sub windows */
+.sub-shutdown {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90%;
+    border: none;
+}
+.sub-start-stop {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+}
+.sub-main {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+.sub-adapter {
+    flex: 6;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+/* Resizing adapter selection dropdown */
+.adapter-type-dropdown {
+    box-sizing: border-box;
+    width: 18vw;
+}
+
+/* Stop Button */
+.stop-btn {
+    background-color: #FB5311;
+}
+.stop-btn:hover {
+    background-color: #9f2a01;
+}
+.stop-btn-off {
+    background-color: #999;
+}
+.stop-btn-off:hover {
+    background-color: #999;
+}
+
+/* Constant load Button and load input */
+.constant-btn {
+    /* If needed to be resized, then here */
+}
+.load-input {
+    width: 110px;
+    height: 33px;
+}
+
+/* Graph-CMD Container */
+.graph-cmd-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+    margin-top: 10px;
+    height: 80vh;
+}
+
+/* Graph Container */
+.graph-container {
+    flex: 7;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #2a2a2a;
+    border: 2px solid #0B5EF4;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.graph-container .graph {
+    height: 70vh;
+}
+
+/* CMD Container */
+.cmd {
+    flex: 3;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #1e1e1e;
+    font-family: monospace;
+    color: white;
+    border: 2px solid #0B5EF4;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    overflow-y: auto;
+    height: 100%;
+}
+
+/* Graph info container that holds the numbers and button */
+.graph-info-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    padding: 15px;
+    box-sizing: border-box;
+    background-color: #3a3a3a;
+    border-radius: 8px;
+    max-width: 18vw;
+    margin: 10px auto 0;
+    height: 6vh;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Data container for the numbers */
+.data-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Styling the numbers */
+.data-number {
+    color: #f4f4f4;
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+#voltage {
+    color: #D4B100;
+}
+#current {
+    color: #0B5EF4;
+}
+#load {
+    color: #4CAF50;
+}
+
+/* Button Styling */
+.graph-info-container button {
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+/* Default button style */
+.pause-btn-active {
+    background-color: #4a90e2;
+}
+
+/* Paused button style */
+.pause-btn-paused {
+    background-color: #777777;
+}
+
+.graph-info-container button:hover {
+    background-color: #0B5EF4;
+}
+
+.Adapter-connection-status {
+    height: 38px;
+    width: 50px;
+    border-radius: 5px;
+}
+
+.connected {
+    background-color: #2D6A2E;
+}
+
+.disconnected {
+    background-color: #9f2a01;
+}

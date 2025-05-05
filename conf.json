@@ -1,0 +1,24 @@
+{
+    "max_current_shutdown": 3.2,
+    "graph_data_per_sec": false,
+    "high_res_mode": false,
+    "exit_at_safety": false,
+    "phases": [
+        {
+            "phase": 1,
+            "include": true,
+            "repeat": 1
+        },
+        {
+            "phase": 2,
+            "include": true,
+            "repeat": 1
+        },
+        {
+            "phase": 3,
+            "include": true,
+            "repeat": 1,
+            "look_for_trip_point": 3
+        }
+    ]
+}

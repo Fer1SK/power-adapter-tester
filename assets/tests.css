@@ -1,0 +1,83 @@
+/* What you see on the past tests overlay is stylized here */
+/* Tests */
+.tests {
+    display: flex;
+    flex-direction: column;
+    width: 75vw;
+    height: 75vh;
+    padding: 20px;
+    text-align: center;
+    margin: 10vh auto auto;
+}
+.tests .graph {
+    flex: 1 1 auto;
+    height: 0;
+}
+
+/* Test Info Container */
+.tests-info-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 15px;
+    background-color: #3e3e3e;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    width: max-content;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Dropdown */
+.tests-dropdown {
+    width: 250px;
+}
+
+/* Buttons Styling */
+.download-btn {
+    width: 70px;
+    height: 40px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #4a90e2;
+    gap: 6px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.download-btn:hover {
+    background-color: #0B5EF4;
+}
+
+/* Adjust Icon Size */
+.download-btn i {
+    font-size: 20px;
+}
+
+/* Align Elements */
+.tests-info-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Center Button Labels Font */
+.download-btn span {
+    font-family: "Font Awesome 5 Free", sans-serif;
+    font-weight: 1000;
+}
+
+/* Fin message */
+.fin-message {
+    background-color: #333;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 10px 10px 10px 0;
+}

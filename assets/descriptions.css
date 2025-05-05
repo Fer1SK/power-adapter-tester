@@ -1,0 +1,47 @@
+/* What you see on the descriptions overlay is stylized here */
+/* Descriptions Overlay */
+.element-description {
+    width: 69vw;
+    height: auto;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    margin: 5vh auto auto;
+}
+.screenshot {
+    width: 100%;
+    height: auto;
+    margin: 20px 0;
+}
+.screenshot.smaller-screenshot{
+    width: 75%;
+}
+
+.descriptions-container {
+    font-size: 14px;
+    color: #d3d3d3;
+    text-align: left;
+}
+
+/* Tabs Styling */
+.dash-tabs {
+    border-bottom: 1px solid #4a4a4a;
+    width: 50%;
+}
+.tab {
+    color: #d3d3d3;
+    background-color: #000 !important;
+    border: none !important;
+    border-bottom: 1px solid #d3d3d3 !important;
+    padding: 10px;
+    cursor: pointer;
+}
+.tab-content {
+    max-height: 80vh; /* Limit the height of the tab container to 80% of the viewport height */
+    overflow-y: auto; /* Enable vertical scrolling when content exceeds max height */
+}
+.tab--selected {
+    color: white;
+    background-color: #999 !important;
+    font-weight: bold;
+}

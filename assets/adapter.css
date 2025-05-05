@@ -1,0 +1,42 @@
+/* What you see on the 2 adapter (+, -) overlays are stylized here */
+/* Adapter overlay */
+.adapter-management {
+    width: 690px;
+    height: 450px;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    margin: 10vh auto auto;
+}
+.adapter-plus-in-stacker {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 15px;
+    width: 100%;
+    padding: 10px;
+}
+.adapter-plus-in {
+    font-size: 14px;
+    box-sizing: border-box;
+}
+.adapter-management h3 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+#adapter-plus-error-message {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+.confirm-adapter-plus-btn i, .confirm-adapter-minus-btn i {
+    font-size: 30px;
+}
+
+.adapter-plus-in-one-line {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 25px;
+}
