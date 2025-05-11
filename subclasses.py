@@ -354,6 +354,7 @@ class EvaluateResults:
         v_bottom_bound = tested_adapter.max_voltage * (100 - self.v_tol) / 100
         v_top_bound = tested_adapter.max_voltage * (100 + self.v_tol) / 100
         was_last_ok = True
+        current_obb_counter = 0
 
         # Plot bounds and Evaluate completion of the phases
         for i, l in enumerate(load):
@@ -368,8 +369,7 @@ class EvaluateResults:
                 self.top_border.append(v_top_bound)
                 if a < ((l - self.a_tol) / 100) * tested_adapter.max_current or a > ((l + self.a_tol) / 100) * tested_adapter.max_current:
                     # Current is out of bounds
-                    self.add_OOB_result(v, a, l, v_bottom_bound, v_top_bound)
-                    self.test_valid = False
+                    current_obb_counter += 1
 
                 if v < v_bottom_bound or v > v_top_bound:
                     # Voltage is out of bounds
@@ -432,6 +432,8 @@ class EvaluateResults:
                 b.append(False)
         if len(test_values[2]["OPP_trip_index"]) == 0:
             self.phase3_pass = False
+        if current_obb_counter > 10:
+            self.test_valid = False
 
         self.OPP_trips = [v, a, l, b]
         self.fin_message = [self.phase1_pass, self.phase2_pass, self.phase3_pass, self.scp_pass, self.test_valid, test_values[2]["OPP_trip_load"]]

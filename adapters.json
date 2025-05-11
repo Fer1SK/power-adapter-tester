@@ -5,36 +5,27 @@
             "max_current": 1,
             "max_voltage": 5,
             "min_voltage": 4.3,
-            "voltage_tolerance": 10,
+            "voltage_tolerance": 8,
             "min_OPP": 105,
             "max_OPP": 200
         },
         {
-            "name": "2A adapter",
-            "max_current": 2,
-            "max_voltage": 5,
+            "name": "2A Adapter",
+            "max_current": 2.0,
+            "max_voltage": 5.0,
             "min_voltage": 4.3,
-            "voltage_tolerance": 10,
+            "voltage_tolerance": 8.0,
             "min_OPP": 105,
             "max_OPP": 200
         },
         {
-            "name": "TEST adapter",
-            "max_current": 69,
-            "max_voltage": 5,
-            "min_voltage": 4.3,
-            "voltage_tolerance": 10,
+            "name": "12V adapter",
+            "max_current": 2.0,
+            "max_voltage": 12.0,
+            "min_voltage": 10.0,
+            "voltage_tolerance": 8.0,
             "min_OPP": 105,
             "max_OPP": 200
-        },
-        {
-            "name": "DELETE TEST",
-            "max_current": 1.0,
-            "max_voltage": 1.0,
-            "min_voltage": 1.0,
-            "voltage_tolerance": 1.0,
-            "min_OPP": 100,
-            "max_OPP": 110
         }
     ]
 }

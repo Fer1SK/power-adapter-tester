@@ -1,5 +1,6 @@
 import json
 import threading
+from email.utils import collapse_rfc2231_value
 from time import sleep
 from datetime import datetime
 from rpi_hardware_pwm import HardwarePWM
@@ -30,7 +31,6 @@ class Tester:
         self.is_connected: bool = False
         self.update_ptd: bool = True
         self.update_ptd: bool = True
-        self.led_pin = 27
         self.connection_pin = 23
         self.running_signal_pin = 24
         self.pwm = None  
@@ -45,9 +45,12 @@ class Tester:
     def setup(self):
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.connection_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.setup(self.led_pin, GPIO.OUT)
+        GPIO.setup(22, GPIO.OUT)
+        GPIO.setup(27, GPIO.OUT)
+        GPIO.setup(17, GPIO.OUT)
         GPIO.setup(self.running_signal_pin, GPIO.OUT)
         self.ina219 = adafruit_ina219.INA219(busio.I2C(board.SCL, board.SDA))
+        self.ina219.set_calibration_32V_2A()
         if self.settings.high_res:
             self.switch_to_high_res()
         else:
@@ -59,12 +62,14 @@ class Tester:
         self.v_a_thread.start()
         self.set_res_list()
         self.testable_adapters.load_values()
-        self.flash_LED(1)
+        #self.flash_LED(1)
 
     def start(self):
         if not self.is_running and self.is_connected:
             self.is_running = True
-            self.turn_on_LED()
+            self.turn_on_yellow_LED()
+            self.flash_LED_controller("red", 1)
+            self.flash_LED_controller("green", 1)
             self.turn_on_signal()
             self.pwm.start(0)
             self.pwm_thread = threading.Thread(target=self.change_pwm)
@@ -77,7 +82,7 @@ class Tester:
     def start_constant_load(self, load: float):
         if not self.is_running and self.is_connected:
             self.is_running = True
-            self.turn_on_LED()
+            self.flash_LED_controller("yellow", 3)
             self.turn_on_signal()
             self.pwm.start(0)
             self.pwm_thread = threading.Thread(target=self.change_pwm)
@@ -107,7 +112,13 @@ class Tester:
                 ts = 0
                 self.connected_check()
                 if self.debug:
-                    msg = f"    Vals: {self.voltage}V; {self.current} A; {self.is_connected}"
+                    msg = f"""
+Vals: 
+     Voltage: {self.voltage}V; 
+     Amps: {self.current} A;
+     Shunt: {self.ina219.shunt_voltage}V;
+     Calcd_Amps: {self.ina219.shunt_voltage / 0.1}A;
+     Connection: {self.is_connected};"""
                     print(colorama.Fore.LIGHTBLACK_EX, msg, colorama.Fore.RESET)
                     self.data_storage.add_message(msg, GRAY)
                 if not self.is_connected:
@@ -146,25 +157,79 @@ class Tester:
             print(colorama.Fore.LIGHTBLACK_EX, msg, colorama.Fore.RESET)
             self.data_storage.add_message(msg, GRAY)
 
-    def turn_on_LED(self):
-        GPIO.output(self.led_pin, GPIO.HIGH)
+    def turn_on_red_LED(self):
+        GPIO.output(22, GPIO.HIGH)
         if self.debug:
             msg = "LED is now on"
             print(colorama.Fore.LIGHTBLACK_EX, msg, colorama.Fore.RESET)
             self.data_storage.add_message(msg, GRAY)
 
-    def turn_off_LED(self):
-        GPIO.output(self.led_pin, GPIO.LOW)
+    def turn_off_red_LED(self):
+        GPIO.output(22, GPIO.LOW)
         if self.debug:
             msg = "LED is now off"
             print(colorama.Fore.LIGHTBLACK_EX, msg, colorama.Fore.RESET)
             self.data_storage.add_message(msg, GRAY)
 
-    def flash_LED(self, t):
-        self.turn_on_LED()
+    def turn_on_yellow_LED(self):
+        GPIO.output(27, GPIO.HIGH)
+        if self.debug:
+            msg = "LED is now on"
+            print(colorama.Fore.LIGHTBLACK_EX, msg, colorama.Fore.RESET)
+            self.data_storage.add_message(msg, GRAY)
+
+    def turn_off_yellow_LED(self):
+        GPIO.output(27, GPIO.LOW)
+        if self.debug:
+            msg = "LED is now off"
+            print(colorama.Fore.LIGHTBLACK_EX, msg, colorama.Fore.RESET)
+            self.data_storage.add_message(msg, GRAY)
+
+    def turn_on_green_LED(self):
+        GPIO.output(17, GPIO.HIGH)
+        if self.debug:
+            msg = "LED is now on"
+            print(colorama.Fore.LIGHTBLACK_EX, msg, colorama.Fore.RESET)
+            self.data_storage.add_message(msg, GRAY)
+
+    def turn_off_green_LED(self):
+        GPIO.output(17, GPIO.LOW)
+        if self.debug:
+            msg = "LED is now off"
+            print(colorama.Fore.LIGHTBLACK_EX, msg, colorama.Fore.RESET)
+            self.data_storage.add_message(msg, GRAY)
+
+    def turn_off_LEDS(self):
+        self.turn_off_red_LED()
+        self.turn_off_yellow_LED()
+        self.turn_off_green_LED()
+
+    def flash_LED_controller(self, color, t: int):
+        if color == "red":
+            LED_thread = threading.Thread(target=self.flash_red_LED, args=([t]))
+        elif color == "green":
+            LED_thread = threading.Thread(target=self.flash_green_LED, args=([t]))
+        elif color == "yellow":
+            LED_thread = threading.Thread(target=self.flash_yellow_LED, args=([t]))
+        else:
+            return
+
+        LED_thread.start()
+
+    def flash_red_LED(self, t):
+        self.turn_on_red_LED()
         sleep(t)
-        self.turn_off_LED()
+        self.turn_off_red_LED()
+
+    def flash_green_LED(self, t):
+        self.turn_on_green_LED()
         sleep(t)
+        self.turn_off_green_LED()
+
+    def flash_yellow_LED(self, t):
+        self.turn_on_yellow_LED()
+        sleep(t)
+        self.turn_off_yellow_LED()
 
     def connected_check(self):
         if GPIO.input(self.connection_pin) == GPIO.LOW:
@@ -337,11 +402,7 @@ class Tester:
         if self.is_running:
             self.phase2()
         else:
-            msg = "Test stopped successfully"
-            self.data_storage.add_message(msg, BLUE)
-            print(colorama.Fore.BLUE, msg, colorama.Fore.RESET)
-            self.wait_to_stop = False
-            self.progress = 0
+            self.test_stopped(),
 
     def phase2(self):
         msg = f"Phase 2:\n    - Testing transient load\n    - Testing loads between 0% and 100% \n    - Testing sharp changes in load\n    - Repeating test {self.settings.phase1[1]} times\n"
@@ -375,11 +436,7 @@ class Tester:
         if self.is_running:
             self.phase3()
         else:
-            msg = "Test stopped successfully"
-            self.data_storage.add_message(msg, BLUE)
-            print(colorama.Fore.BLUE, msg, colorama.Fore.RESET)
-            self.wait_to_stop = False
-            self.progress = 0
+            self.test_stopped()
 
     def phase3(self):
         msg = f"Phase 3:\n    - Testing OPP\n    - Testing loads over 100% \n    - Repeating test {self.settings.phase3[1]} times\n    - Looking for {self.settings.phase3[2]} OPP trips\n"
@@ -463,11 +520,7 @@ class Tester:
         if self.is_running:
             self.parse_results()
         else:
-            msg = "Test stopped successfully"
-            self.data_storage.add_message(msg, BLUE)
-            print(colorama.Fore.BLUE, msg, colorama.Fore.RESET)
-            self.wait_to_stop = False
-            self.progress = 0
+            self.test_stopped()
 
     def parse_results(self):
         self.progress = 70  # TODO daco musim spravit s tym progressom idk ci to chcem davat do gui
@@ -478,31 +531,44 @@ class Tester:
                           self.test_values, self.testable_adapters.selected_adapter)
         self.results.write_data_into_file(self.testable_adapters.selected_adapter, self.settings)
         self.progress = 100
-        self.stop()
+        self.stop(True)
         msg = "Test Finished"
         print(colorama.Fore.BLUE, msg, colorama.Fore.RESET)
         self.data_storage.add_message(msg, BLUE)
         self.data_storage.add_message(self.results.fin_message, "TEST RESULTS")
-
-        sleep(1)
         del self.results
         self.results = EvaluateResults(self.data_storage)
+        sleep(2)
         self.progress = 0
         self.wait_to_stop = False
+        self.turn_off_LEDS()
         self.update_ptd = True
 
-    def stop(self):
+    def test_stopped(self):
+        msg = "Test stopped successfully"
+        self.data_storage.add_message(msg, BLUE)
+        print(colorama.Fore.BLUE, msg, colorama.Fore.RESET)
+        sleep(.5)
+        self.wait_to_stop = False
+        self.turn_off_LEDS()
+        self.progress = 0
+
+    def stop(self, ok_end):
         if self.is_running:
             self.is_running = False
             self.data_storage.testing = False
             self.wait_to_stop = True
             self.pwm.stop()
+            sleep(.1)
             try:
                 self.pwm_thread.join()
             except (AttributeError, RuntimeError):
                 pass
             self.percent_load_on_adapter = 0
-            self.turn_off_LED()
+            if ok_end:
+                self.turn_on_green_LED()
+            else:
+                self.turn_on_red_LED()
             self.turn_off_signal()
             self.set_res_list()
             return "stopping"
@@ -514,7 +580,7 @@ class Tester:
             return "idle"
 
     def shutdown(self):
-        while self.stop() != "idle":
+        while self.stop(False) != "idle":
             continue
         self.is_measuring = False
         sleep(1)

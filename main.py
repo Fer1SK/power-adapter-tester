@@ -3,11 +3,9 @@ import signal
 import sys
 import colorama
 import plotly.graph_objects as go
-import dash_daq as daq
 
 from time import sleep
-from dash import Dash, html, dcc, Input, Output, State, callback_context, no_update, page_container, register_page, \
-    get_asset_url
+from dash import Dash, html, dcc, Input, Output, State, callback_context, no_update, page_container
 from flask import send_from_directory
 
 from colors import BLACK, WHITE, GRAY, RED, GREEN, ORANGE, BLUE, LIGHT_BLUE, YELLOW
@@ -30,6 +28,8 @@ class Dashboard(Dash):
         self.register_callbacks()
 
     def create_graph(self, voltages, currents, load):
+        if len(voltages) == 0:
+            return empty_fig
         fig = go.Figure()
         if self.tester.settings.high_res:
             x_values = [i * .5 for i in range(len(voltages))]
@@ -480,7 +480,7 @@ class Dashboard(Dash):
             prevent_initial_call=True
         )
         def handle_stop_button(n_clicks):
-            res = self.tester.stop()
+            res = self.tester.stop(False)
             if res == "stopping":
                 msg = "Stopping test ..."
                 print(colorama.Fore.YELLOW, msg, colorama.Style.RESET_ALL)
