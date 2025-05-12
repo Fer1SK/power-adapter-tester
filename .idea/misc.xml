@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="Black">
-    <option name="sdkName" value="Python 3.11" />
-  </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Remote Python 3.11.2 (sftp://BP_Rp_4@69.10.10.20:22/home/BP_Rp_4/Desktop/BP/.venv/bin/python)" project-jdk-type="Python SDK" />
-</project>
